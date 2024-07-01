@@ -2,43 +2,85 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!--
+    parent标签解释：
+        1)是什么：parent标签类似java中的继承，复用依赖，减少冗余配置。
+        2)使用场景：
+            在多模块（module）的项目中，有很多模块中的pom中存在相同的引用，如果此时声明一个父pom文件，
+            将公用的依赖提取到父pom文件中（即使用<parent>标签），将大大减少其他pom文件中的依赖的配置。
+     -->
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
+        <groupId>org.youl</groupId>
+        <artifactId>cloud-center</artifactId>
+        <version>1.0-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <!-- 当前项目的唯一标识 -->
     <groupId>org.youl</groupId>
     <artifactId>cloud-eureka</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>cloud-eureka</name>
-    <description>cloud-eureka</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+
+    <!--
+     properties标签解释:
+         1)是什么：定义项目级别的属性
+         2)使用场景：这些属性可以在整个POM文件中作为变量使用，从而实现值的复用和集中管理。这样做有助于提高POM文件的可读性和易维护性，同时也能简化不同模块间的依赖管理和版本控制。
+     -->
     <properties>
         <java.version>17</java.version>
     </properties>
+
+    <!--
+    dependencies标签解释：
+        1)是什么：声明项目所依赖的其他软件模块或库。通过 <dependencies> 标签，您可以详细指定项目在编译、测试、运行时所需要的各种外部组件。
+        2)使用场景：
+            dependencies里的依赖都会自动引入，并默认被所有的子项目继承。
+
+        注意点：
+            <dependency>标签的子标签及其作用：
+                type (<type>):可选标签，用来定义依赖的类型，默认为 jar。可能的类型包括 jar、war、pom、zip 等。
+                scope (<scope>):定义依赖范围，影响依赖在构建生命周期的不同阶段是否可用，以及是否包含在最终打包的工件中。常见的范围有：
+                    1.compile（默认）：编译和运行时等都有效
+                    2.test：只在测试编译和测试运行时有效。
+                    3.provided：表示该依赖由容器或JDK本身提供，编译和测试时有效，但在打包时不包含。
+                    4.runtime：只在运行时有效，编译时无效。
+                    5.system：系统依赖，类似 provided，但是必须提供本地系统的路径。
+                optional (<optional>)::如果设为 true，则表明此依赖虽然被当前项目所依赖，但它不会传递给依赖此项目的其他项目。
+                exclusions (<exclusions>):此标签用于排除传递性依赖中的某些子依赖，避免引入冲突或不需要的库。
+                    1.此标签用于排除传递性依赖中的某些子依赖，避免引入冲突或不需要的库。
+    -->
     <dependencies>
+        <!--
+        spring-cloud-starter-netflix-eureka-client依赖：
+            1)版本号：在 spring-cloud-dependencies pom文件依赖中声明了 spring-cloud-starter-netflix-eureka-client 的版本号。
+            2)这个 spring-cloud-starter-xxx 完成了eureka-client的自动装配。
+         -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+        <!--
+        spring-boot-starter-web依赖：
+            1)版本号：在 spring-boot-dependencies pom文件依赖中声明了 spring-boot-starter-web 的版本号。
+            2)这个 spring-cloud-starter-xxx 完成了web应用的自动装配。
+         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--
+        spring-cloud-starter-netflix-eureka-server依赖：
+            1)版本号：在 spring-cloud-dependencies pom文件依赖中声明了 spring-cloud-starter-netflix-eureka-server 的版本号。
+            2)这个 spring-cloud-starter-xxx 完成了eureka-server的自动装配。
+         -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
     </dependencies>
 
@@ -47,6 +89,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- 如果依赖父亲是spring-boot-starter-parent，就不需要添加 -->
+                <configuration>
+                    <mainClass>org.youl.cloudeureka.CloudEurekaApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!-- 如果依赖父亲是spring-boot-starter-parent，就不需要添加 -->
             </plugin>
         </plugins>
     </build>

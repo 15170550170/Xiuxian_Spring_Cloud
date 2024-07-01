@@ -1,83 +1,304 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>org.youl</groupId>
-	<artifactId>Xiuxian_Spring_Cloud</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>Xiuxian_Spring_Cloud</name>
-	<description>Xiuxian_Spring_Cloud</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
-	<properties>
-		<java.version>17</java.version>
-		<spring-cloud.version>2023.0.2</spring-cloud.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter</artifactId>
-		</dependency>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+    <!-- 当前项目的唯一标识 -->
+    <groupId>org.youl</groupId>
+    <artifactId>Xiuxian_Spring_Cloud</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <!--
+    modules标签解释：
+        1)是什么：用于定义依赖该项目的子模块
+        2)使用场景：
+            在微服务生产环境中，我们常常需要使用根项目来统一定义<dependencies>、<dependencyManagement>、<build>等公共标签，达到整个系统pom文件的统一配置，便于系统的维护等。
 
+    当前项目的子项目 -->
+    <modules>
+        <!--微服务基础设施-->
+        <module>cloud-center</module>
+        <!--用户服务-->
+    </modules>
+
+
+    <!--
+     properties标签解释:
+         1)是什么：定义项目级别的属性
+         2)使用场景：这些属性可以在整个POM文件中作为变量使用，从而实现值的复用和集中管理。这样做有助于提高POM文件的可读性和易维护性，同时也能简化不同模块间的依赖管理和版本控制。
+     -->
+    <properties>
+        <!-- dependencies start -->
+        <lombok.version>1.18.32</lombok.version>
+        <commons-lang.version>3.14.0</commons-lang.version>
+        <fastjson2.version>2.0.51</fastjson2.version>
+        <guava.version>33.2.1-jre</guava.version>
+        <java-jwt.version>4.4.0</java-jwt.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <log4j-core>2.23.1</log4j-core>
+        <jedis.version>5.1.3</jedis.version>
+        <gson.version>2.10.1</gson.version>
+        <commons-io.version>2.16.1</commons-io.version>
+        <jakarta.servlet.jsp-api.version>4.0.0</jakarta.servlet.jsp-api.version>
+        <joda-time.version>2.12.7</joda-time.version>
+        <junit-jupiter-api.version>5.10.3</junit-jupiter-api.version>
+        <!-- dependencies end -->
+
+        <!-- dependencyManagement start -->
+        <spring-boot.version>3.3.1</spring-boot.version>
+        <druid-spring-boot-starter.version>1.2.23</druid-spring-boot-starter.version>
+        <spring-cloud.version>2023.0.2</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
+        <kafka.version>3.7.0</kafka.version>
+        <spring.version>6.1.8</spring.version>
+        <spring-retry.version>2.0.6</spring-retry.version>
+        <!-- dependencyManagement end -->
+
+        <!-- build start-->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <java.version>17</java.version>
+        <!-- build end-->
+    </properties>
+
+    <!--
+    dependencies标签解释：
+        1)是什么：声明项目所依赖的其他软件模块或库。通过 <dependencies> 标签，您可以详细指定项目在编译、测试、运行时所需要的各种外部组件。
+        2)使用场景：
+            dependencies里的依赖都会自动引入，并默认被所有的子项目继承。
+
+        注意点：
+            <dependency>标签的子标签及其作用：
+                type (<type>):可选标签，用来定义依赖的类型，默认为 jar。可能的类型包括 jar、war、pom、zip 等。
+                scope (<scope>):定义依赖范围，影响依赖在构建生命周期的不同阶段是否可用，以及是否包含在最终打包的工件中。常见的范围有：
+                    1.compile（默认）：编译和运行时等都有效
+                    2.test：只在测试编译和测试运行时有效。
+                    3.provided：表示该依赖由容器或JDK本身提供，编译和测试时有效，但在打包时不包含。
+                    4.runtime：只在运行时有效，编译时无效。
+                    5.system：系统依赖，类似 provided，但是必须提供本地系统的路径。
+                optional (<optional>)::如果设为 true，则表明此依赖虽然被当前项目所依赖，但它不会传递给依赖此项目的其他项目。
+                exclusions (<exclusions>):此标签用于排除传递性依赖中的某些子依赖，避免引入冲突或不需要的库。
+                    1.此标签用于排除传递性依赖中的某些子依赖，避免引入冲突或不需要的库。
+    -->
+    <dependencies>
+        <!-- lombok依赖：用于生成get、set等pojo对象的标准化方法。 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- commons-lang3依赖：用于提供一些常见的工具类。 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang.version}</version>
+        </dependency>
+
+        <!-- fastjson2依赖：用于提供alibaba实现JSON数据结构的各种操作方法。 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
+        </dependency>
+
+        <!-- guava依赖：用于提供google常见的各种工具类，包括本地缓存等。 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <!-- java-jwt依赖：用于[JSON Web Token (JWT)]的一个java实现，可以用于身份验证。不确定JDK17支不支持？？？ -->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${java-jwt.version}</version>
+        </dependency>
+
+        <!-- commons-collections4依赖：用于增强了Java集合框架，提供了几个功能来简化收集处理；提供了许多新的接口，实现和实用程序。 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
+        </dependency>
+
+        <!-- log4j-core依赖：用于日志框架。 -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j-core}</version>
+        </dependency>
+
+        <!-- jedis依赖：用于redis在java客户端。 -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
+
+        <!-- gson依赖：用于提供google实现JSON数据结构的各种操作方法。 -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
+        <!-- commons-io依赖：用于提供IO各种方法的工具集。 -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
+        <!-- jakarta.servlet.jsp-api依赖：用于提供tomcat一些相关的方法。 -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <version>${jakarta.servlet.jsp-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- joda-time依赖：用于提供优雅好用的Java日期工具类Joda-Time。 -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda-time.version}</version>
+        </dependency>
+
+        <!-- junit-jupiter-api依赖：用于提供测试框架。 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-jupiter-api.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!--
+    dependencyManagement标签解释：
+        1)是什么：dependencyManagement的意思为依赖关系管理，它就是为了能够更好统一管理项目的版本号和各种jar版本号，可以更加方便升级，解决包冲突问题。
+        2)使用场景：
+            dependencyManagement的使用，一般项目有很多子模块的时候才会使用。项目的子模块很多，如果每个模块的pom文件都是自己管理，那版本统一就很难控制。
+            子模块在编写依赖时，就不需要编写依赖版本，统一继承父项目中的dependencyManagement中对应依赖的版本号。
+
+        注意点：
+            1、在有dependencyManagement标签的父项目中的pom.xml中的打包方式应该为pom——<packaging>pom</packaging>，根项目一般没有代码，只有一个pom.xml文件。
+            2、dependencyManagement只是定义某个具体依赖的版本，但是不会引入依赖。
+            3、子模块的依赖中应该通过<parent>标签进行定义好父pom文件。引入依赖的时候只要求把groupId和artifactId写入就好，版本号会自动向父pom文件上找到对应的版本号，从而实现版本的统一管理。
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- spring-boot-dependencies依赖：用于定义很多spring-boot相关依赖的版本号。 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <!--
+                druid-spring-boot-starter依赖：用于提供Java语言中较好的数据库连接池，Druid能够提供
+                强大的监控和扩展功能。spring boot starter自动装配组件，简化组件引入的开发工作量，所以
+                Druid推出了druid-spring-boot-starter。
+             -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid-spring-boot-starter.version}</version>
+            </dependency>
+
+            <!-- spring-cloud-dependencies依赖：用于定义很多spring-cloud相关组件依赖的版本号。 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- spring-cloud-alibaba-dependencies依赖：用于定义很多spring-cloud-alibaba相关组件依赖的版本号。 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- kafka-clients依赖：用于提供kafka的Java客户端。 -->
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>
+
+            <!--
+            kafka-streams依赖：用于提供构建实时流处理应用程序的客户端库，它直接构建在 Kafka 之上，
+            允许开发者使用纯 Java 或 Scala 代码轻松处理 Kafka 中的数据流。
+            -->
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-streams</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>
+
+            <!-- kafka-streams-test-utils依赖：用于提供kafka关于测试的工具集。 -->
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-streams-test-utils</artifactId>
+                <version>${kafka.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--<dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka_2.12</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>-->
+
+            <!-- spring-messaging依赖：用于提供一种基于WebSocket的STOMP协议实现。 -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-messaging</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <!-- spring-retry依赖：用于提供网络异常时，进行网络重试的解决方案。 -->
+            <dependency>
+                <groupId>org.springframework.retry</groupId>
+                <artifactId>spring-retry</artifactId>
+                <version>${spring-retry.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 当前项目打包工具 -->
+    <build>
+        <!-- 用于统一管理子模块关于spring-boot-maven-plugin插件的版本。 -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <!-- 构建项目的插件 -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <encoding>utf-8</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

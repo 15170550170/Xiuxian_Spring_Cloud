@@ -1,1 +1,18 @@
-spring.application.name=cloud-eureka
+server:
+    port: 7777 # SpringBoot的内置tomcat的端口号
+
+spring:
+    application:
+        name: eureka-server # spring.application.name用来区分不同的应用程序或服务，起到不同微服务中的唯一标识作用。
+
+eureka:
+    client:
+        register-with-eureka: false   # 表示是否将自己注册到其他的Eureka Server，默认为true。因为当前集群只有一个Eureka Server，所以需要设置成false。
+        fetch-registry: false  # 作为Eureka Client，是否从Eureka Server获取注册信息，默认为true。因为本例是一个单点的Eureka Server，不需要同步其他Eureka Server节点数据，所以设置为false。
+        service-url:
+            defaultZone: http://localhost:7777/eureka/   # 作为Eureka Client，需要向远程的Eureka Server自我注册、发现其他的Provider实例。此配置项用于设置Eureka Server的交互地址，在注册中心集群的情况下，多个Eureka Server之间可以使用半角逗号分隔。
+    instance:
+    hostname: localhost
+    server:
+        enable-self-preservation: false # 用于设置是否关闭注册中心的保护机制：关闭自我保护，防止失效的服务也被一直访问 (默认是 true)。
+        eviction-interval-timer-in-ms: 10000 # 配置Eureka Server清理无效节点的时间间隔：扫描失效服务的间隔时间（单位毫秒，默认是60*1000）即60秒；如果Eureka Server处于保护状态，此配置就无效。
