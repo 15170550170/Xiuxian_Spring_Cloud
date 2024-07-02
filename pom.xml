@@ -20,6 +20,7 @@
         <!--微服务基础设施-->
         <module>cloud-center</module>
         <!--用户服务-->
+        <module>uaa-provider</module>
     </modules>
 
 

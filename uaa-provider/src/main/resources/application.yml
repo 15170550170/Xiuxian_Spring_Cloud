@@ -1,0 +1,20 @@
+server:
+    port: 7702
+    servlet:
+        context-path: /uaa-provider # 当前微服务的根访问路径
+spring:
+    application:
+        name: uaa-provider # 当前微服务的名称，作为应用程序的唯一标识
+        
+eureka:
+    instance:
+        instance-id: ${spring.cloud.client.ip-address}:${server.port}
+        ip-address: ${spring.cloud.client.ip-address} # 设置当前实例的IP地址。${spring.cloud.client.ip-address}是从Spring Cloud依赖包中导入的配置项，存放了客户端的IP地址。
+        prefer-ip-address: true # 访问路径优先使用IP地址
+        status-page-url-path: /${server.servlet.context-path}${management.endpoints.web.base-path}/info
+        health-check-url-path: /${server.servlet.context-path}${management.endpoints.web.base-path}/health
+    client:
+        egister-with-eureka: true # 注册到eureka服务器
+        fetch-registry: true # 是否去注册中心获取其他服务
+        serviceUrl:
+            defaultZone: http://${EUREKA_ZONE_HOST:localhost}:7777/eureka/

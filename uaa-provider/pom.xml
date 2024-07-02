@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!--
+    parent标签解释：
+        1)是什么：parent标签类似java中的继承，复用依赖，减少冗余配置。
+        2)使用场景：
+            在多模块（module）的项目中，有很多模块中的pom中存在相同的引用，如果此时声明一个父pom文件，
+            将公用的依赖提取到父pom文件中（即使用<parent>标签），将大大减少其他pom文件中的依赖的配置。
+     -->
+	<parent>
+		<groupId>org.youl</groupId>
+		<artifactId>Xiuxian_Spring_Cloud</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<!-- 当前项目的唯一标识 -->
+	<groupId>org.youl</groupId>
+	<artifactId>uaa-provider</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>uaa-provider</name>
+
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+
+	<dependencies>
+		<!--Spring Boot Web服务组件：起步依赖。 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
