@@ -1,0 +1,15 @@
+server:
+    port: 7788 # 配置中心端口
+    servlet:
+        context-path: /config
+
+spring:
+    application:
+        name: config-server # 服务名称
+    profiles:
+        active: native # 表示从本地读取配置，而不是从Git读取配置。
+        config:
+            server:
+                native:
+                    searchLocations: classpath:config/ # 申明本地配置文件的存放位置。表示查找文件的路径，在类路径的config下。
+

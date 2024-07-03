@@ -1,14 +1,17 @@
 server:
-    port: 7702
+    port: 7788
     servlet:
-        context-path: /uaa-provider # 当前微服务的根访问路径
+        context-path: /config
+        
 spring:
+    application:
+        name: config-server # 服务名称
+    profiles:
+        active: native # 设置读取本地配置文件
     cloud:
         client:
-            ip-address: 127.0.0.1 # 设置当前客户端的IP地址
-    application:
-        name: uaa-provider # 当前微服务的名称，作为应用程序的唯一标识
-        
+            ip-address: 127.0.0.1 # 客户端的IP地址
+
 eureka:
     instance:
         instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name} # 此项用于配置Provider实例ID。大多数时候需要将IP显示在instance-id中，${spring.cloud.client.ip-address}是从Spring Cloud依赖包中导入的配置项，存放了客户端的IP地址。
